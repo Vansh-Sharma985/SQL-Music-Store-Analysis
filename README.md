@@ -134,9 +134,4 @@ VIP Tracking: Using partitioning window functions, we successfully extracted the
 
 ### 📝 What to do with this:
 1. Create a file named **`README.md`** inside your local repository folder.
-2. Open it with any text editor (like Notepad or VS Code), paste the code block above, and save it.
-3. Upload it to your GitHub repository along with your `.sql` script. It will instantly format into a beautiful web page!
-
----
-
-💼 **Ready to publish?** Once you save this, would you like me to help you write a quick description for your **GitHub repository header** so that it stands out the moment a recruiter visits your page?
+2. Open it with any text editor (like Notepad or VS Code), paste 
