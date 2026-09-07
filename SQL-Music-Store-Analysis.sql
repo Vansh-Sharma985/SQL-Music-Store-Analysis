@@ -1,0 +1,76 @@
+-- Question 1: Who is the senior-most employee based on job title?
+-- SELECT first_name, last_name, title, levels 
+-- FROM employee 
+-- ORDER BY levels DESC 
+-- LIMIT 1;
+-- Question 2: Which countries have the most invoices?
+-- SELECT billing_country, COUNT(*) AS invoice_count 
+-- FROM invoice 
+-- GROUP BY billing_country 
+-- ORDER BY invoice_count DESC;
+-- Question 3: What are the top 3 values of total invoice transactions?
+-- SELECT total 
+-- FROM invoice 
+-- ORDER BY total DESC 
+-- LIMIT 3;
+-- Question 1: Find all Rock Music listeners
+-- SELECT DISTINCT customer.email, customer.first_name, customer.last_name, genre.name AS genre_name
+-- FROM customer
+-- JOIN invoice ON customer.customer_id = invoice.customer_id
+-- JOIN invoice_line ON invoice.invoice_id = invoice_line.invoice_id
+-- JOIN track ON invoice_line.track_id = track.track_id
+-- JOIN genre ON track.genre_id = genre.genre_id
+-- WHERE genre.name = 'Rock'
+-- ORDER BY customer.email;
+-- Question 2: Who are our top 10 Rock Artists?
+-- SELECT artist.name, COUNT(track.track_id) AS number_of_songs
+-- FROM track
+-- JOIN album2 ON album2.album_id = track.album_id
+-- JOIN artist ON artist.artist_id = album2.artist_id
+-- JOIN genre ON genre.genre_id = track.genre_id
+-- WHERE genre.name = 'Rock'
+-- GROUP BY artist.artist_id, artist.name
+-- ORDER BY number_of_songs DESC
+-- LIMIT 10;
+-- Question 3: Find songs longer than the average song length
+-- SELECT name, milliseconds
+-- FROM track
+-- WHERE milliseconds > (
+--     SELECT AVG(milliseconds) 
+--     FROM track
+-- )
+-- ORDER BY milliseconds DESC;
+-- Question 1: Find the Most Popular Music Genre for Each Country
+-- WITH popular_genre AS (
+--     SELECT 
+--         COUNT(invoice_line.quantity) AS purchases, 
+--         customer.country, 
+--         genre.name AS genre_name, 
+--         genre.genre_id,
+--         ROW_NUMBER() OVER(PARTITION BY customer.country ORDER BY COUNT(invoice_line.quantity) DESC) AS RowNo 
+--     FROM invoice_line 
+--     JOIN invoice ON invoice.invoice_id = invoice_line.invoice_id
+--     JOIN customer ON customer.customer_id = invoice.customer_id
+--     JOIN track ON track.track_id = invoice_line.track_id
+--     JOIN genre ON genre.genre_id = track.genre_id
+--     GROUP BY customer.country, genre.name, genre.genre_id
+-- )
+-- SELECT * 
+-- FROM popular_genre 
+-- WHERE RowNo <= 1;
+-- Question 2: Find the Customer Who Has Spent the Most in Each Country
+-- WITH customer_with_country AS (
+--     SELECT 
+--         customer.customer_id, 
+--         customer.first_name, 
+--         customer.last_name, 
+--         invoice.billing_country, 
+--         SUM(invoice.total) AS total_spending,
+--         ROW_NUMBER() OVER(PARTITION BY invoice.billing_country ORDER BY SUM(invoice.total) DESC) AS RowNo 
+--     FROM invoice
+--     JOIN customer ON customer.customer_id = invoice.customer_id
+--     GROUP BY customer.customer_id, customer.first_name, customer.last_name, invoice.billing_country
+-- )
+-- SELECT * 
+-- FROM customer_with_country 
+-- WHERE RowNo <= 1;
