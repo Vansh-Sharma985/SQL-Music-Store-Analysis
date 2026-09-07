@@ -131,7 +131,3 @@ The Power of Rock: "Rock" is overwhelmingly the most popular music genre across 
 VIP Tracking: Using partitioning window functions, we successfully extracted the highest-spending customers in every country, allowing the business to initiate exclusive loyalty programs or targeted offers for high-lifetime-value (LTV) shoppers.
 
 ***
-
-### 📝 What to do with this:
-1. Create a file named **`README.md`** inside your local repository folder.
-2. Open it with any text editor (like Notepad or VS Code), paste 
